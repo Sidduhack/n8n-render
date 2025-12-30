@@ -1,9 +1,9 @@
 # --- Stage 1: Download Cloudflare & ttyd ---
 FROM alpine:latest AS builder
 RUN apk add --no-cache curl
-# Download Cloudflare (Static binary - very reliable)
+# Download Cloudflare (Very reliable direct link)
 RUN curl -L --output /cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 && chmod +x /cloudflared
-# Download ttyd (Web Terminal)
+# Download ttyd (Terminal Tool)
 RUN curl -L --output /ttyd https://github.com/tsl0922/ttyd/releases/download/1.7.3/ttyd.x86_64 && chmod +x /ttyd
 
 # --- Stage 2: Final image ---
@@ -19,7 +19,7 @@ n8n start &\n\
 # 2. Start terminal on port 7681\n\
 ttyd -p 7681 -c admin:pass123 sh &\n\
 sleep 5\n\
-# 3. Start a QUICK tunnel pointing to the terminal\n\
+# 3. Start a QUICK tunnel pointing to the terminal port\n\
 cloudflared tunnel --url http://localhost:7681\n" > /start.sh \
     && chmod +x /start.sh && chown node:node /start.sh
 
